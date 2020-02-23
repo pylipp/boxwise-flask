@@ -1,0 +1,86 @@
+{
+    "orgs": [
+        {
+            "id": 1,
+            "name": "org1"
+        },
+        {
+            "id": 2,
+            "name": "org2"
+        },
+        {
+            "id": 3,
+            "name": "org3"
+        }
+    ],
+    "bases": [
+        {
+            "id": 1,
+            "name": "base1",
+            "org_owner_id": 2
+        },
+        {
+            "id": 2,
+            "name": "base2",
+            "org_owner_id": 2
+        },
+        {
+            "id": 3,
+            "name": "base3",
+            "org_owner_id": 1
+        },
+        {
+            "id": 4,
+            "name": "base4",
+            "org_owner_id": 1
+        },
+        {
+            "id": 5,
+            "name": "base5",
+            "org_owner_id": 3
+        },
+        {
+            "id": 6,
+            "name": "base6",
+            "org_owner_id": 2
+        }
+    ],
+    "items": [
+        {
+            "id": 1,
+            "name": "shirt",
+            "properties": ["medium", "men", "short-sleeve"],
+            "base_location_id": 2
+        },
+        {
+            "id": 1,
+            "name": "shirt",
+            "properties": ["medium", "women", "short-sleeve"],
+            "base_location_id": 4
+        },
+        {
+            "id": 1,
+            "name": "shoes",
+            "properties": ["45", "men", "sandal"],
+            "base_location_id": 2
+        },
+        {
+            "id": 1,
+            "name": "shoes",
+            "properties": ["39", "women", "sandal"],
+            "base_location_id": 5
+        },
+        {
+            "id": 1,
+            "name": "shirt",
+            "properties": ["medium", "men", "short-sleeve"],
+            "base_location_id": 1
+        },
+        {
+            "id": 1,
+            "name": "toy",
+            "properties": ["soft"],
+            "base_location_id": 3
+        }
+    ]
+}

@@ -2,7 +2,7 @@ import json
 from six.moves.urllib.request import urlopen
 from functools import wraps
 
-from flask import Flask, request, jsonify, _request_ctx_stack
+from flask import Flask, request, jsonify, _request_ctx_stack, make_response
 from flask_cors import cross_origin
 from jose import jwt
 
@@ -119,3 +119,37 @@ def public():
 def private():
     response = "Hello from a private endpoint! You need to be authenticated to see this."
     return jsonify(message=response)
+
+
+
+# #############
+
+# http://127.0.0.1:5000/query?foo=foo&bar=bar&baz=baz&title=query+strings+with+flask
+
+@APP.route("/api/v2/test_response")
+def users():
+    response = make_response('Test worked!',
+                         200)
+    response.headers = {"Content-Type": "application/json"}
+
+@APP.route("/query")
+def query():
+
+    if request.args:
+
+        # We have our query string nicely serialized as a Python dictionary
+        args = request.args
+
+        # load up the data from the fake db
+        with open("fake_db.json", "r") as read_file:
+            data = json.load(read_file)
+
+        # pull out the relevant bits of the data
+        # TODO
+        
+        # return the relevant data
+        return f"(Query) {data}", 200
+
+    else:
+
+        return "No matching resources", 200 

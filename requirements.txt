@@ -1,0 +1,6 @@
+six
+functools
+flask
+flask_cors
+jose
+python-dotenv
