@@ -21,9 +21,11 @@ type_defs = gql(
         name: String
         email: String!
         cms_usergroups_id: Int
-        valid_firstday: String
-        valid_lastday: String
+        valid_firstday: Date
+        valid_lastday: Date
         camp_id: [Int]
+        lastlogin: Datetime
+        lastaction: Datetime
     }
     type Box{
         id: Int!
@@ -35,6 +37,10 @@ type_defs = gql(
         qr_id: Int
         comments: String
         box_state_id: Int
+        deleted: Datetime
     }
+
+    scalar Datetime
+    scalar Date
 """
 )
