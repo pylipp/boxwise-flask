@@ -1,7 +1,7 @@
 """GraphQL resolver functionality"""
 from ariadne import ObjectType, make_executable_schema, snake_case_fallback_resolvers
 
-from .models import Camps, Cms_Users
+from .models import Camps, Cms_Users, Stock
 from .type_defs import type_defs
 
 query = ObjectType("Query")
@@ -26,6 +26,12 @@ def resolve_all_users(_, info):
 @query.field("user")
 def resolve_user(_, info, email):
     response = Cms_Users.get_user(email)
+    return response
+
+
+@query.field("box")
+def resolve_box(_, info, id):
+    response = Stock.get_box(id)
     return response
 
 

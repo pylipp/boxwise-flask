@@ -1,5 +1,5 @@
 """Model definitions for database"""
-from peewee import CharField, CompositeKey
+from peewee import CharField, CompositeKey, DateTimeField, IntegerField, TextField
 from playhouse.shortcuts import model_to_dict
 
 from .app import db
@@ -73,3 +73,26 @@ class Cms_Users(db.Model):
         user.camp_id = [model_to_dict(item)["camp_id"] for item in camps]
 
         return user
+
+
+class Stock(db.Model):
+    id = CharField()
+    box_id = CharField()
+    product_id = IntegerField()
+    size_id = IntegerField()
+    items = IntegerField()
+    location_id = IntegerField()
+    qr_id = IntegerField()
+    comments: TextField()
+    gender: CharField()  # from product table
+    deleted: DateTimeField()
+    box_state_id: IntegerField()
+
+    def __unicode__(self):
+        return self.box_id
+
+    @staticmethod
+    def get_box(id):
+        box = Stock.select().where(Stock.id == id).get()
+
+        return box

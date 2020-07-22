@@ -8,6 +8,7 @@ type_defs = gql(
         allBases: [Base]
         allUsers: [User]
         user(email: String): User
+        box(id: Int): Box
     }
     type Base {
         id: Int!
@@ -23,6 +24,17 @@ type_defs = gql(
         valid_firstday: String
         valid_lastday: String
         camp_id: [Int]
+    }
+    type Box{
+        id: Int!
+        box_id: String!
+        product_id: Int!
+        size_id: Int!
+        items: Int!
+        location_id: Int!
+        qr_id: Int
+        comments: String
+        box_state_id: Int
     }
 """
 )
