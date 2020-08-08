@@ -6,16 +6,22 @@ type_defs = gql(
     type Query {
         hello: String!
         allBases: [Base]
+        base(id: String!): Base
         allUsers: [User]
         user(email: String): User
-        box(id: Int): Box
+        box(qr_code: String): Box
+        qr(code: String): QR
+    }
+    type Mutation {
+        createBox(input:CreateBoxInput):Box
     }
     type Base {
-        id: Int!
+        id: Int
         name: String
+        currencyname: String
         organisation_id: Int
     }
-    type User{
+    type User {
         id: Int!
         organisation_id: Int
         name: String
@@ -27,7 +33,13 @@ type_defs = gql(
         lastlogin: Datetime
         lastaction: Datetime
     }
-    type Box{
+
+    type QR {
+        id: Int!
+        code: String!
+    }
+
+    type Box {
         id: Int!
         box_id: String!
         product_id: Int!
@@ -38,6 +50,20 @@ type_defs = gql(
         comments: String
         box_state_id: Int
         deleted: Datetime
+        created_by: String
+    }
+
+    input CreateBoxInput {
+        box_id: Int!
+        product_id: Int! #this is a foreign key
+        size_id: Int! #this is a foreign key
+        items: Int
+        location_id: Int! #this is a foreign key
+        comments: String!
+        qr_id: String! #this is a foreign key
+        created: String
+        created_by: String
+        box_state_id: String! #this is a foreign key
     }
 
     scalar Datetime

@@ -9,23 +9,71 @@ from peewee import (
 )
 from playhouse.shortcuts import model_to_dict
 
-from .app import db
+from .app import app, db
 
 
-class Person(db.Model):
-    firstname = CharField()
-    lastname = CharField()
-    camp_id = CharField()
+class Stock(db.Model):
+    # INSERT INTO stock (
+    #   box_id, product_id, size_id, items, location_id,
+    #   comments, qr_id, created, created_by, box_state_id)
+    # VALUES (
+    #   :box_id, :product_id, :size_id, :items, :location_id, :comments,
+    #   :qr_id, :created, :created_by, :box_state_id)
+
     id = CharField()
+    box_id = CharField()
+    product_id = IntegerField()
+    size_id = IntegerField()
+    items = IntegerField()
+    location_id = IntegerField()
+    qr_id = IntegerField()
+    comments: TextField()
+    gender: CharField()  # from product table
+    deleted: DateTimeField()
+    box_state_id: IntegerField()
 
     def __unicode__(self):
-        return self.firstname
+        return self.box_id
+
+    @staticmethod
+    def create_box(box):
+        new_box = Stock.create(
+            box_id=box.get("box_id"),
+            product_id=box.get("product_id", None),
+            size_id=box.get("size_id", None),
+            items=box.get("items", None),
+            location_id=box.get("location_id", None),
+            comments=box.get("comments", None),
+            qr_id=box.get("qr_id", None),
+            created=box.get("created", None),
+            created_by=box.get("created_by", None),
+            box_state_id=box.get("box_state_id", None),
+        )
+        return new_box
+
+    @staticmethod
+    def get_box(qr_code):
+        qr_id = QR.get_qr_id
+        app.logger.warn(qr_id)
+        box = Stock.select().where(Stock.qr_id == qr_id).get()
+        return box
+
+
+class QR(db.Model):
+    id = CharField()
+    code = CharField()
+
+    @staticmethod
+    def get_qr(code):
+        qr = QR.select().where(QR.code == code).get()
+        return qr
 
 
 class Camps(db.Model):
     id = CharField()
     organisation_id = CharField()
     name = CharField()
+    currencyname = CharField()
 
     def __unicode__(self):
         return self.name
@@ -33,6 +81,11 @@ class Camps(db.Model):
     @staticmethod
     def get_all_camps():
         return Camps.select().order_by(Camps.name)
+
+    @staticmethod
+    def get_camp(camp_id):
+        camp = Camps.select().where(Camps.id == camp_id).get()
+        return camp
 
 
 class Cms_Usergroups_Camps(db.Model):
@@ -56,7 +109,6 @@ class Cms_Usergroups_Camps(db.Model):
 
 class Cms_Users(db.Model):
     id = CharField()
-    organisation_id = CharField()
     name = CharField(column_name="naam")
     email = CharField()
     cms_usergroups_id = CharField()
@@ -82,26 +134,3 @@ class Cms_Users(db.Model):
         user.camp_id = [model_to_dict(item)["camp_id"] for item in camps]
 
         return user
-
-
-class Stock(db.Model):
-    id = CharField()
-    box_id = CharField()
-    product_id = IntegerField()
-    size_id = IntegerField()
-    items = IntegerField()
-    location_id = IntegerField()
-    qr_id = IntegerField()
-    comments: TextField()
-    gender: CharField()  # from product table
-    deleted: DateTimeField()
-    box_state_id: IntegerField()
-
-    def __unicode__(self):
-        return self.box_id
-
-    @staticmethod
-    def get_box(id):
-        box = Stock.select().where(Stock.id == id).get()
-
-        return box

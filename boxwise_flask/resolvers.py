@@ -1,15 +1,18 @@
 """GraphQL resolver functionality"""
 from ariadne import (
+    MutationType,
     ObjectType,
     ScalarType,
     make_executable_schema,
     snake_case_fallback_resolvers,
 )
 
-from .models import Camps, Cms_Users, Stock
+from .auth_helper import authorization_test
+from .models import QR, Camps, Cms_Users, Stock
 from .type_defs import type_defs
 
 query = ObjectType("Query")
+mutation = MutationType()
 
 datetime_scalar = ScalarType("Datetime")
 date_scalar = ScalarType("Date")
@@ -35,6 +38,13 @@ def resolve_all_camps(_, info):
     return list(response.dicts())
 
 
+@query.field("base")
+def resolve_camp(_, info, id):
+    authorization_test("bases", base_id=id)
+    response = Camps.get_camp(id)
+    return response
+
+
 @query.field("allUsers")
 def resolve_all_users(_, info):
     response = Cms_Users.get_all_users()
@@ -47,10 +57,24 @@ def resolve_user(_, info, email):
     return response
 
 
-@query.field("box")
-def resolve_box(_, info, id):
-    response = Stock.get_box(id)
+@query.field("qr")
+def resolve_qr(_, info, code):
+    response = QR.get_qr(code)
     return response
 
 
-schema = make_executable_schema(type_defs, query, snake_case_fallback_resolvers)
+@query.field("box")
+def resolve_box(_, info, qr_code):
+    response = Stock.get_box(qr_code)
+    return response
+
+
+@mutation.field("createBox")
+def create_box(_, info, input):
+    response = Stock.create_box(input)
+    return response
+
+
+schema = make_executable_schema(
+    type_defs, [query, mutation], snake_case_fallback_resolvers
+)
