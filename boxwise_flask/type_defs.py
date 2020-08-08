@@ -12,6 +12,10 @@ type_defs = gql(
         box(qr_code: String): Box
         qr(code: String): QR
         product(id: Int): Product
+        gender(id: Int): Gender
+        size(id: Int): Size
+        location(id: Int): Location
+        box_state(id: Int): Box_State
     }
     type Mutation {
         createBox(input:CreateBoxInput):Box
@@ -46,6 +50,26 @@ type_defs = gql(
         gender_id: Int
     }
 
+    type Gender {
+        id: Int!
+        label: String
+    }
+
+    type Size {
+        id: Int!
+        label: String
+    }
+
+    type Location {
+        id: Int!
+        label: String
+    }
+
+    type Box_State {
+        id: Int!
+        label: String
+    }
+
     type Box {
         id: Int!
         box_id: String!
@@ -58,6 +82,10 @@ type_defs = gql(
         box_state_id: Int
         deleted: Datetime
         created_by: String
+        product: Product
+        gender: Gender
+        size: Size
+        location: Location
     }
 
     input CreateBoxInput {

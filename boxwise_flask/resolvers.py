@@ -8,7 +8,17 @@ from ariadne import (
 )
 
 from .auth_helper import authorization_test
-from .models import QR, Camps, Cms_Users, Products, Stock
+from .models import (
+    QR,
+    Box_State,
+    Camps,
+    Cms_Users,
+    Genders,
+    Locations,
+    Products,
+    Sizes,
+    Stock,
+)
 from .type_defs import type_defs
 
 query = ObjectType("Query")
@@ -66,6 +76,30 @@ def resolve_qr(_, info, code):
 @query.field("product")
 def resolve_product(_, info, id):
     response = Products.get_name(id)
+    return response
+
+
+@query.field("gender")
+def resolve_gender(_, info, id):
+    response = Genders.get_label(id)
+    return response
+
+
+@query.field("size")
+def resolve_size(_, info, id):
+    response = Sizes.get_label(id)
+    return response
+
+
+@query.field("box_state")
+def resolve_box_state(_, info, id):
+    response = Box_State.get_label(id)
+    return response
+
+
+@query.field("location")
+def resolve_location(_, info, id):
+    response = Locations.get_label(id)
     return response
 
 

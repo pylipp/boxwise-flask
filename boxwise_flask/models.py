@@ -27,9 +27,13 @@ class Stock(db.Model):
     location_id = IntegerField()
     qr_id = IntegerField()
     comments: TextField()
-    gender: CharField()  # from product table
     deleted: DateTimeField()
     box_state_id: IntegerField()
+    product: CharField()
+    gender: CharField()  # from product table
+    size: CharField()
+    location: CharField()
+    box_state: CharField()
 
     def __unicode__(self):
         return self.box_id
@@ -51,15 +55,28 @@ class Stock(db.Model):
         return new_box
 
     @staticmethod
-    # def get_box(qr_code):
-    #     qr_id = QR.get_qr(qr_code)
-    #     box = Stock.select().where(Stock.qr_id == qr_id).get()
-    #     return box
     def get_box(qr_code):
         qr_id = QR.get_qr(qr_code)
         box = (
-            Stock.select()
+            Stock.select(
+                Stock.product_id,
+                Stock.id,
+                Stock.box_id,
+                Stock.qr_id,
+                # Stock.box_state_id,
+                # Stock.comments,
+                # Stock.deleted,
+                Products.name.alias("product"),
+                Genders.label.alias("gender"),
+                Sizes.label.alias("size"),
+                Locations.label.alias("location"),
+                # Box_State.label.alias("box_state"),
+            )
             .join(Products, on=(Stock.product_id == Products.id))
+            .join(Genders, on=(Products.gender_id == Genders.id))
+            .join(Sizes, on=(Stock.size_id == Sizes.id))
+            .join(Locations, on=(Stock.location_id == Locations.id))
+            # .join(Box_State, on=(Stock.box_state_id == Box_State.id))
             .where(Stock.qr_id == qr_id)
             .get()
         )
@@ -85,6 +102,46 @@ class Products(db.Model):
     def get_name(id):
         product_name = Products.select().where(Products.id == id).get()
         return product_name
+
+
+class Genders(db.Model):
+    id = CharField()
+    label = CharField()
+
+    @staticmethod
+    def get_label(id):
+        gender = Genders.select().where(Genders.id == id).get()
+        return gender
+
+
+class Sizes(db.Model):
+    id = CharField()
+    label = CharField()
+
+    @staticmethod
+    def get_label(id):
+        size = Sizes.select().where(Sizes.id == id).get()
+        return size
+
+
+class Locations(db.Model):
+    id = CharField()
+    label = CharField()
+
+    @staticmethod
+    def get_label(id):
+        location = Locations.select().where(Locations.id == id).get()
+        return location
+
+
+class Box_State(db.Model):
+    id = CharField()
+    label = CharField()
+
+    @staticmethod
+    def get_label(id):
+        box_state = Box_State.select().where(Box_State.id == id).get()
+        return box_state
 
 
 class Camps(db.Model):
