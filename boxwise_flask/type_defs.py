@@ -11,6 +11,7 @@ type_defs = gql(
         user(email: String): User
         box(qr_code: String): Box
         qr(code: String): QR
+        product(id: Int): Product
     }
     type Mutation {
         createBox(input:CreateBoxInput):Box
@@ -37,6 +38,12 @@ type_defs = gql(
     type QR {
         id: Int!
         code: String!
+    }
+
+    type Product {
+        id: Int!
+        name: String
+        gender_id: Int
     }
 
     type Box {

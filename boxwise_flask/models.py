@@ -19,13 +19,6 @@ logger.setLevel(logging.DEBUG)
 
 
 class Stock(db.Model):
-    # INSERT INTO stock (
-    #   box_id, product_id, size_id, items, location_id,
-    #   comments, qr_id, created, created_by, box_state_id)
-    # VALUES (
-    #   :box_id, :product_id, :size_id, :items, :location_id, :comments,
-    #   :qr_id, :created, :created_by, :box_state_id)
-
     id = CharField()
     box_id = CharField()
     product_id = IntegerField()
@@ -58,9 +51,18 @@ class Stock(db.Model):
         return new_box
 
     @staticmethod
+    # def get_box(qr_code):
+    #     qr_id = QR.get_qr(qr_code)
+    #     box = Stock.select().where(Stock.qr_id == qr_id).get()
+    #     return box
     def get_box(qr_code):
         qr_id = QR.get_qr(qr_code)
-        box = Stock.select().where(Stock.qr_id == qr_id).get()
+        box = (
+            Stock.select()
+            .join(Products, on=(Stock.product_id == Products.id))
+            .where(Stock.qr_id == qr_id)
+            .get()
+        )
         return box
 
 
@@ -72,6 +74,17 @@ class QR(db.Model):
     def get_qr(code):
         qr = QR.select().where(QR.code == code).get()
         return qr
+
+
+class Products(db.Model):
+    id = CharField()
+    name = CharField()
+    gender_id = IntegerField()
+
+    @staticmethod
+    def get_name(id):
+        product_name = Products.select().where(Products.id == id).get()
+        return product_name
 
 
 class Camps(db.Model):

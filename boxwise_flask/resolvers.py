@@ -8,7 +8,7 @@ from ariadne import (
 )
 
 from .auth_helper import authorization_test
-from .models import QR, Camps, Cms_Users, Stock
+from .models import QR, Camps, Cms_Users, Products, Stock
 from .type_defs import type_defs
 
 query = ObjectType("Query")
@@ -60,6 +60,12 @@ def resolve_user(_, info, email):
 @query.field("qr")
 def resolve_qr(_, info, code):
     response = QR.get_qr(code)
+    return response
+
+
+@query.field("product")
+def resolve_product(_, info, id):
+    response = Products.get_name(id)
     return response
 
 
