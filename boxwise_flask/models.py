@@ -1,4 +1,6 @@
 """Model definitions for database"""
+import logging
+
 from peewee import (
     CharField,
     CompositeKey,
@@ -9,7 +11,11 @@ from peewee import (
 )
 from playhouse.shortcuts import model_to_dict
 
-from .app import app, db
+from .app import db
+
+logger = logging.getLogger("peewee")
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
 
 
 class Stock(db.Model):
@@ -53,8 +59,7 @@ class Stock(db.Model):
 
     @staticmethod
     def get_box(qr_code):
-        qr_id = QR.get_qr_id
-        app.logger.warn(qr_id)
+        qr_id = QR.get_qr(qr_code)
         box = Stock.select().where(Stock.qr_id == qr_id).get()
         return box
 
