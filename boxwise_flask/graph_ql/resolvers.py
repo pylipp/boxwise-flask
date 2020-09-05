@@ -62,7 +62,7 @@ def resolve_all_users(_, info):
 
 @query.field("user")
 def resolve_user(_, info, email):
-    response = User.get_user(email)
+    response = User.get_from_email(email)
     return response
 
 

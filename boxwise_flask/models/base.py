@@ -6,7 +6,7 @@ from ..db import db
 class Base(db.Model):
     organisation_id = IntegerField()
     name = CharField()
-    currencyname = CharField()
+    currency_name = CharField(column_name="currencyname")
 
     class Meta:
         table_name = "camps"
@@ -19,7 +19,7 @@ class Base(db.Model):
             + " "
             + self.name
             + " "
-            + self.currencyname
+            + self.currency_name
         )
 
     @staticmethod
@@ -31,6 +31,6 @@ class Base(db.Model):
         return Base.select().where(Base.organisation_id == org_id)
 
     @staticmethod
-    def get_from_id(camp_id):
-        camp = Base.select().where(Base.id == camp_id).get()
-        return camp
+    def get_from_id(base_id):
+        base = Base.select().where(Base.id == base_id).get()
+        return base
