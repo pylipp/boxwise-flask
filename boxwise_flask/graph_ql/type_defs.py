@@ -125,7 +125,7 @@ type_defs = gql(
         organisation_id: Int
         name: String
         email: String!
-        cms_usergroups_id: Int
+        usergroups_id: Int
         valid_firstday: Date
         valid_lastday: Date
         base_id: [Int]
