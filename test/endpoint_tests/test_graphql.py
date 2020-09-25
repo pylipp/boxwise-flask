@@ -25,6 +25,7 @@ def test_all_bases(client):
     graph_ql_query_string = """query {
                 allBases {
                     id
+                    organisationId
                     name
                     currencyName
                 }
@@ -37,6 +38,7 @@ def test_all_bases(client):
     for expected_base in bases:
         created_base = get_base_from_graphql(expected_base["id"], all_bases)
         assert created_base["id"] == expected_base["id"]
+        assert created_base["organisationId"] == expected_base["organisation_id"]
         assert created_base["name"] == expected_base["name"]
         assert created_base["currencyName"] == expected_base["currency_name"]
 
@@ -59,6 +61,7 @@ def test_base(client):
     graph_ql_query_string = f"""query Base {{
                 base(id: "{test_id}") {{
                     id
+                    organisationId
                     name
                     currencyName
                 }}
@@ -67,11 +70,12 @@ def test_base(client):
     data = {"query": graph_ql_query_string}
     response_data = client.post("/graphql", json=data)
     assert response_data.status_code == 200
-    expected_base = response_data.json["data"]["base"]
-    created_base = get_base_from_graphql(test_id, bases)
+    expected_base = get_base_from_graphql(test_id, bases)
+    created_base = response_data.json["data"]["base"]
     assert created_base["id"] == expected_base["id"]
+    assert created_base["organisationId"] == expected_base["organisation_id"]
     assert created_base["name"] == expected_base["name"]
-    assert created_base["currency_name"] == expected_base["currencyName"]
+    assert created_base["currencyName"] == expected_base["currency_name"]
 
 
 def test_all_users(client):

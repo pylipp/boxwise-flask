@@ -18,7 +18,7 @@ type_defs = gql(
         product: Product!
         gender: ProductGender
         size: String!
-        state: BoxState!
+        state:  State!
         qrCode: QRCode!
         lastModifiedBy: String!
         lastModifiedOn: Int!
@@ -118,6 +118,8 @@ type_defs = gql(
         createdOn: Int!
         lastModifiedBy: String
         lastModifiedOn: Int
+        currencyName: String
+        organisationId: Int
     }
 
     type User {
@@ -125,12 +127,26 @@ type_defs = gql(
         organisation_id: Int
         name: String
         email: String!
-        usergroups_id: Int
+        usergroup_id: Int
         valid_firstday: Date
         valid_lastday: Date
         base_id: [Int]
         lastlogin: Datetime
         lastaction: Datetime
+    }
+ 
+    input CreateBoxInput {
+        box_id: String #this is an output, but not an input
+        product_id: Int! #this is a foreign key
+        size_id: Int #this is a foreign key
+        items: Int
+        location_id: Int! #this is a foreign key
+        comments: String!
+        #this will get looked up to turn into qr_id, which is a foreign key
+        qr_barcode: String!
+        created: Datetime #this is an output, but not an input
+        created_by: String #this is null in the table consistently
+        box_state_id: Int  #this is an output, but not an input
     }
 
     scalar Datetime
