@@ -10,21 +10,6 @@ from ariadne import gql
 
 type_defs = gql(
     """
-    type Box {
-        id: Int!
-        boxLabelNumber: Int!
-        location: Location!
-        items: Int!
-        product: Product!
-        gender: ProductGender
-        size: String!
-        state:  State!
-        qrCode: QRCode!
-        lastModifiedBy: String!
-        lastModifiedOn: Int!
-        lastAction: String!
-        comment: String
-    }
 
     type QRCode {
         id: Int!
@@ -134,7 +119,23 @@ type_defs = gql(
         lastlogin: Datetime
         lastaction: Datetime
     }
- 
+
+    type Box {
+        id: Int!
+        boxLabelNumber: Int!
+        location: Location!
+        items: Int!
+        product: Product!
+        gender: ProductGender
+        size: String!
+        state:  BoxState!
+        qrCode: QRCode!
+        lastModifiedBy: String!
+        lastModifiedOn: Int!
+        lastAction: String!
+        comment: String
+    }
+
     input CreateBoxInput {
         box_id: String #this is an output, but not an input
         product_id: Int! #this is a foreign key

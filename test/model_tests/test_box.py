@@ -13,7 +13,7 @@ def test_box_model():
         "product_id": 1,
         "size_id": 2,
         "items": 3,
-        "location_id": 4,
+        "location_id": 1,
         "comments": "",
         "qr_id": 1,
         "created": datetime.now(),
