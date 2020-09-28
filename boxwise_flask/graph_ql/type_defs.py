@@ -10,7 +10,6 @@ from ariadne import gql
 
 type_defs = gql(
     """
-
     type QRCode {
         id: Int!
         code: String!

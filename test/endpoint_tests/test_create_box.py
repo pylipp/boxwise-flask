@@ -1,5 +1,5 @@
 from boxwise_flask.db import db
-from boxwise_flask.models.qr import Qr
+from boxwise_flask.models.qr_code import QRCode
 
 
 def test_create_box(client):
@@ -7,7 +7,7 @@ def test_create_box(client):
     mock_qr = {"id": 42, "code": "999"}
 
     db.connect_db()
-    Qr.create(**mock_qr)
+    QRCode.create(**mock_qr)
     db.close_db(None)
     box_creation_input_string = f"""{{
                     product_id: 1,

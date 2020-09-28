@@ -79,7 +79,7 @@ def graphql_server():
     # Note: Passing the request to the context is optional.
     # In Flask, the current request is always accessible as flask.request
 
-    debug_graphql = bool(os.getenv("DEBUG_GRAPHQL", False))
+    debug_graphql = True  # bool(os.getenv("DEBUG_GRAPHQL", False))
     success, result = graphql_sync(
         schema, data, context_value=request, debug=debug_graphql
     )
