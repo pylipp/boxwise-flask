@@ -22,7 +22,7 @@ class User(db.Model):
     created_by = ForeignKeyField(
         column_name="created_by", field="id", model="self", null=True
     )
-    deleted = DateTimeField(null=True)
+    deleted = DateTimeField(null=True, default=None)
     email = CharField(null=True, unique=True)
     is_admin = IntegerField(constraints=[SQL("DEFAULT 0")])
     language = ForeignKeyField(
@@ -32,11 +32,7 @@ class User(db.Model):
     lastlogin = DateTimeField()
     modified = DateTimeField(null=True)
     modified_by = ForeignKeyField(
-        backref="cms_users_modified_by_set",
-        column_name="modified_by",
-        field="id",
-        model="self",
-        null=True,
+        column_name="modified_by", field="id", model="self", null=True,
     )
     name = CharField(constraints=[SQL("DEFAULT ''")])
     pass_ = CharField(column_name="pass", constraints=[SQL("DEFAULT ''")])

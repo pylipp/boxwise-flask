@@ -6,10 +6,10 @@ from boxwise_flask.models.usergroup import Usergroup
 
 
 class UsergroupModuleAccess(db.Model):
-    cms_functions = ForeignKeyField(
+    base_module = ForeignKeyField(
         column_name="cms_functions_id", field="id", model=BaseModule, null=True
     )
-    cms_usergroups = ForeignKeyField(
+    usergroup = ForeignKeyField(
         column_name="cms_usergroups_id", field="id", model=Usergroup
     )
 

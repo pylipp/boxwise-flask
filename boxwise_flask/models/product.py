@@ -17,7 +17,7 @@ from boxwise_flask.models.user import User
 
 class Product(db.Model):
     amountneeded = FloatField(constraints=[SQL("DEFAULT 1")])
-    camp = ForeignKeyField(column_name="camp_id", field="id", model=Base, null=True)
+    base = ForeignKeyField(column_name="camp_id", field="id", model=Base, null=True)
     category = ForeignKeyField(
         column_name="category_id", field="id", model=ProductCategory, null=True
     )
@@ -26,22 +26,16 @@ class Product(db.Model):
     created_by = ForeignKeyField(
         column_name="created_by", field="id", model=User, null=True
     )
-    deleted = DateTimeField(null=True)
-    gender = ForeignKeyField(
+    deleted = DateTimeField(null=True, default=None)
+    product_gender = ForeignKeyField(
         column_name="gender_id", field="id", model=ProductGender, null=True
     )
-    maxperadult = IntegerField(null=True)
-    maxperchild = IntegerField(null=True)
     modified = DateTimeField(null=True)
     modified_by = ForeignKeyField(
-        backref="cms_users_modified_by_set",
-        column_name="modified_by",
-        field="id",
-        model=User,
-        null=True,
+        column_name="modified_by", field="id", model=User, null=True,
     )
     name = CharField()
-    sizegroup = ForeignKeyField(
+    size_range = ForeignKeyField(
         column_name="sizegroup_id", field="id", model=SizeRange, null=True
     )
     stockincontainer = IntegerField(constraints=[SQL("DEFAULT 0")])

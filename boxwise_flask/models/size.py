@@ -13,15 +13,10 @@ class Size(db.Model):
     label = CharField()
     modified = DateTimeField(null=True)
     modified_by = ForeignKeyField(
-        backref="cms_users_modified_by_set",
-        column_name="modified_by",
-        field="id",
-        model=User,
-        null=True,
+        column_name="modified_by", field="id", model=User, null=True,
     )
-    portion = IntegerField(null=True)
     seq = IntegerField(null=True)
-    sizegroup = ForeignKeyField(
+    size_range = ForeignKeyField(
         column_name="sizegroup_id", field="id", model=SizeRange, null=True
     )
 

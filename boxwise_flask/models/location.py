@@ -20,7 +20,7 @@ class Location(db.Model):
     created_by = ForeignKeyField(
         column_name="created_by", field="id", model=User, null=True
     )
-    deleted = DateTimeField(null=True)
+    deleted = DateTimeField(null=True, default=None)
     is_donated = IntegerField(constraints=[SQL("DEFAULT 0")])
     is_lost = IntegerField(constraints=[SQL("DEFAULT 0")])
     is_market = IntegerField(constraints=[SQL("DEFAULT 0")])
@@ -28,11 +28,7 @@ class Location(db.Model):
     label = CharField()
     modified = DateTimeField(null=True)
     modified_by = ForeignKeyField(
-        backref="cms_users_modified_by_set",
-        column_name="modified_by",
-        field="id",
-        model=User,
-        null=True,
+        column_name="modified_by", field="id", model=User, null=True,
     )
     seq = IntegerField(null=True)
     visible = IntegerField(constraints=[SQL("DEFAULT 1")])

@@ -64,9 +64,6 @@ def test_box_model():
 
     new_box = {
         "id": 2,
-        "_gender": None,
-        "_size": None,
-        "_type": None,
         "box_id": "abc",
         "box_state": 1,
         "comments": "",
@@ -90,9 +87,6 @@ def test_box_model():
         print("created_box ", new_box)
 
     assert queried_box_dict["id"] == new_box["id"]
-    assert queried_box_dict["_gender"] == new_box["_gender"]
-    assert queried_box_dict["_size"] == new_box["_size"]
-    assert queried_box_dict["_type"] == new_box["_type"]
     assert queried_box_dict["box_id"] == new_box["box_id"]
     assert queried_box_dict["box_state"]["id"] == new_box["box_state"]
     assert queried_box_dict["comments"] == new_box["comments"]

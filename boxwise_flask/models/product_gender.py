@@ -18,11 +18,7 @@ class ProductGender(db.Model):
     male = IntegerField(constraints=[SQL("DEFAULT 0")])
     modified = DateTimeField(null=True)
     modified_by = ForeignKeyField(
-        backref="cms_users_modified_by_set",
-        column_name="modified_by",
-        field="id",
-        model=User,
-        null=True,
+        column_name="modified_by", field="id", model=User, null=True,
     )
     seq = IntegerField(null=True)
     shortlabel = CharField(null=True)

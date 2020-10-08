@@ -21,9 +21,6 @@ from .qr_code import QRCode
 
 
 class Box(db.Model):
-    _gender = CharField(null=True)
-    _size = CharField(null=True)
-    _type = CharField(null=True)
     box_id = CharField(constraints=[SQL("DEFAULT ''")], index=True)
     box_state = ForeignKeyField(
         column_name="box_state_id",
@@ -36,32 +33,20 @@ class Box(db.Model):
     created_by = ForeignKeyField(
         column_name="created_by", field="id", model=User, null=True
     )
-    deleted = DateTimeField(default=datetime.now())
+    deleted = DateTimeField(null=True, default=None)
     items = IntegerField()
     location = ForeignKeyField(column_name="location_id", field="id", model=Location)
     modified = DateTimeField(null=True)
     modified_by = ForeignKeyField(
-        backref="cms_users_modified_by_set",
-        column_name="modified_by",
-        field="id",
-        model=User,
-        null=True,
+        column_name="modified_by", field="id", model=User, null=True,
     )
     ordered = DateTimeField(null=True)
     ordered_by = ForeignKeyField(
-        backref="cms_users_ordered_by_set",
-        column_name="ordered_by",
-        field="id",
-        model=User,
-        null=True,
+        column_name="ordered_by", field="id", model=User, null=True,
     )
     picked = IntegerField(null=True)
     picked_by = ForeignKeyField(
-        backref="cms_users_picked_by_set",
-        column_name="picked_by",
-        field="id",
-        model=User,
-        null=True,
+        column_name="picked_by", field="id", model=User, null=True,
     )
     product = ForeignKeyField(
         column_name="product_id", field="id", model=Product, null=True
